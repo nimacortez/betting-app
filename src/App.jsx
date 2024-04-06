@@ -99,7 +99,7 @@ const App = () => {
                       ))}
                     </div>
                   ))}
-                  {game.bookmakers && game.bookmakers.length > 5 && (
+                  {game.bookmakers?.length > 5 && (
                     <div className="expand-collapse-button">
                     <button onClick={() => handleToggleExpand(game.id)}>
                       {expandedGames[game.id] ? " " : " "}
