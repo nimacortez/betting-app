@@ -24,6 +24,7 @@ const App = () => {
   const prevLeagueRef = useRef(null);
   const [collapsedLeagues, setCollapsedLeagues] = useState({});
   const [bookmakersData, setBookmakersData] = useState({});
+  const [expandedGames, setExpandedGames] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -49,6 +50,13 @@ const App = () => {
     setCollapsedLeagues((prevCollapsedLeagues) => ({
       ...prevCollapsedLeagues,
       [league]: !prevCollapsedLeagues[league],
+    }));
+  };
+
+  const handleToggleExpand = (gameId) => {
+    setExpandedGames((prevExpandedGames) => ({
+      ...prevExpandedGames, 
+      [gameId]: !prevExpandedGames[gameId], 
     }));
   };
 
