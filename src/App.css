@@ -196,3 +196,24 @@ hr {
   height: auto; 
   margin-right: 10px; 
 }
+
+.expand-collapse-button {
+  display: flex; 
+  align-self: flex-end;
+  justify-content: center;
+  margin-bottom: 10px;
+  margin-left: 20px; 
+}
+
+.expand-collapse-button button {
+  background-color: lightgrey; 
+  color: #ffffffff;  
+  border: none; 
+  padding: 100px 10px; 
+  border-radius: 15px; 
+  cursor: pointer; 
+}
+
+.expand-collapse-button button:hover {
+  
+}

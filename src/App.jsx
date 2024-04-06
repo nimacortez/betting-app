@@ -23,7 +23,6 @@ const App = () => {
   const [error, setError] = useState(null);
   const prevLeagueRef = useRef(null);
   const [collapsedLeagues, setCollapsedLeagues] = useState({});
-  const [bookmakersData, setBookmakersData] = useState({});
   const [expandedGames, setExpandedGames] = useState({});
 
   useEffect(() => {
@@ -32,7 +31,6 @@ const App = () => {
         const response = await axios.get(API_URL);
         console.log('API Response:', response.data);
         setGames(response.data || []);
-        setBookmakersData(response.data.bookmakers || {});
       } catch (error) {
         console.error('Error fetching data:', error.message);
         setError('Error fetching data. Please try again.');
@@ -55,8 +53,8 @@ const App = () => {
 
   const handleToggleExpand = (gameId) => {
     setExpandedGames((prevExpandedGames) => ({
-      ...prevExpandedGames, 
-      [gameId]: !prevExpandedGames[gameId], 
+      ...prevExpandedGames,
+      [gameId]: !prevExpandedGames[gameId],
     }));
   };
 
@@ -88,7 +86,27 @@ const App = () => {
                   <div className="team">{game.home_team}</div>
                 </div>
                 <div className="bookmakers">
-                  {game.bookmakers?.map((bookmaker, index) => (
+                  {game.bookmakers?.slice(0, 5).map((bookmaker, index) => (
+                    <div key={index} className="bookmaker">
+                      <img src={`/images/${bookmaker.key.toLowerCase()}.png`} alt={bookmaker.key} className="sportsbook-logo" />
+                      {bookmaker.markets?.map((market) => (
+                        market.key === 'h2h' && (
+                          <div className="price" key={market.key}>
+                            <div className="away-price">{market.outcomes[0]?.price > 0 ? `+${market.outcomes[0]?.price}` : market.outcomes[0]?.price}</div>
+                            <div className="home-price">{market.outcomes[1]?.price > 0 ? `+${market.outcomes[1]?.price}` : market.outcomes[1]?.price}</div>
+                          </div>
+                        )
+                      ))}
+                    </div>
+                  ))}
+                  {game.bookmakers && game.bookmakers.length > 5 && (
+                    <div className="expand-collapse-button">
+                    <button onClick={() => handleToggleExpand(game.id)}>
+                      {expandedGames[game.id] ? " " : " "}
+                    </button>
+                    </div>
+                  )}
+                  {expandedGames[game.id] && game.bookmakers?.slice(5).map((bookmaker, index) => (
                     <div key={index} className="bookmaker">
                       <img src={`/images/${bookmaker.key.toLowerCase()}.png`} alt={bookmaker.key} className="sportsbook-logo" />
                       {bookmaker.markets?.map((market) => (
